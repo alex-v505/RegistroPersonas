@@ -1,0 +1,110 @@
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="d-flex justify-content-between align-items-center mb-4">
+                <h2 class="text-primary">Gestionar Personas</h2>
+                <button class="btn btn-round btn-success" (click)="open(mymodal1)">Agregar Nueva Persona</button>
+            </div>
+            <ng-template #mymodal1 let-modal1>
+                <div class="modal-dialog" style="width: 80%;">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h4 class="modal-title col-md-11" id="modal-basic-title">Agregar Nueva Persona</h4>
+                            <button type="button" class="btn btn-outline-danger" aria-label="Close" (click)="modal1.dismiss('Cross click')">
+                                <span aria-hidden="true" (click)="cancel()">×</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <form>
+                                <div class="form-group">
+                                    <label for="personaNombre">Nombre</label>
+                                    <input type="text" class="form-control" id="personaNombre" placeholder="Nombre" [(ngModel)]="persona.nombre" [ngModelOptions]="{standalone: true}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="personaCedula">Cédula</label>
+                                    <input type="text" class="form-control" id="personaCedula" placeholder="Cédula" [(ngModel)]="persona.cedula" [ngModelOptions]="{standalone: true}">
+                                </div>
+                                <div class="form-group">
+                                    <label for="fechaNacimiento">Fecha de Nacimiento</label>
+                                    <input type="date" class="form-control" id="fechaNacimiento" [(ngModel)]="persona.fechaNacimiento" [ngModelOptions]="{standalone: true}" [max]="getCurrentDate()">
+                                </div>
+                                <div *ngIf="errorMessage" class="alert alert-danger">
+                                    {{errorMessage}}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-secondary" (click)="modal1.close('Save click')">Cancelar</button>
+                                    <button type="button" class="btn btn-success" (click)="addPersona(persona)">Agregar</button>
+                                </div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </ng-template>
+            <div class="card mt-4">
+                <div class="card-header bg-secondary text-white">
+                    <h4 class="card-title mb-0">Lista de Personas</h4>
+                </div>
+                <div class="card-body">
+                    <table class="table table-hover text-center">
+                        <thead class="thead-light">
+                            <tr>
+                                <th>Nombre</th>
+                                <th>Cédula</th>
+                                <th>Fecha de Nacimiento</th>
+                                <th>Edad</th>
+                                <th>Acciones</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let p of listPersonas">
+                                <td>{{p.nombre}}</td>
+                                <td>{{p.cedula}}</td>
+                                <td>{{p.fechaNacimiento}}</td>
+                                <td>{{p.edad}}</td>
+                                <td>
+                                    <button type="button" class="btn btn-outline-primary btn-sm" (click)="open(mymodal)">Editar</button>
+                                    <ng-template #mymodal let-modal>
+                                        <div class="modal-dialog" style="width: 80%;">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title col-md-11" id="modal-basic-title">Editar Persona</h4>
+                                                    <button type="button" class="close btn btn-outline-danger" aria-label="Close" (click)="modal.dismiss('Cross click')">
+                                                        <span aria-hidden="true" (click)="cancel()">×</span>
+                                                    </button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    <form>
+                                                        <div class="form-group">
+                                                            <label for="personaNombreEdit">Nombre</label>
+                                                            <input type="text" class="form-control" id="personaNombreEdit" [(ngModel)]="p.nombre" [ngModelOptions]="{standalone: true}">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="personaCedulaEdit">Cédula</label>
+                                                            <input type="text" class="form-control" id="personaCedulaEdit" [(ngModel)]="p.cedula" [ngModelOptions]="{standalone: true}">
+                                                        </div>
+                                                        <div class="form-group">
+                                                            <label for="fechaNacimientoEdit">Fecha de Nacimiento</label>
+                                                            <input type="date" class="form-control" id="fechaNacimientoEdit" [(ngModel)]="p.fechaNacimiento" [ngModelOptions]="{standalone: true}" [max]="getCurrentDate()">
+                                                        </div>
+                                                        <div *ngIf="errorMessage" class="alert alert-danger">
+                                                            {{errorMessage}}
+                                                        </div>
+                                                        <div class="modal-footer">
+                                                            <button type="button" class="btn btn-secondary" (click)="modal.close('Save click')">Cancelar</button>
+                                                            <button type="button" class="btn btn-success" (click)="editPersona(p)">Guardar</button>
+                                                        </div>
+                                                    </form>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </ng-template>
+                                    <button type="button" class="btn btn-outline-danger btn-sm" (click)="deletePersona(p.id_persona)">Eliminar</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
